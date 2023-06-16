@@ -1,6 +1,5 @@
 package personal.model;
 
-import javax.jws.soap.SOAPBinding;
 import java.util.List;
 
 public interface Repository {

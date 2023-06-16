@@ -15,7 +15,7 @@ public class ViewUser {
         this.userController = userController;
     }
 
-    public void run(){
+    public void run() {
         Commands com = Commands.NONE;
 
         while (true) {
@@ -56,18 +56,18 @@ public class ViewUser {
         User savedUser = userController.updateUser(updateUser);
         System.out.println(savedUser);
     }
+
     private void deleteUser() throws Exception {
         readList();
-        User user = getUser();
-
+        User deleteUser = getUser();
+        userController.deleteUser(deleteUser);
     }
 
-
     private void readList() {
-       List<User> listUser = userController.readAllUser();
-       for(User u:listUser){
-           System.out.println(u);
-       }
+        List<User> listUser = userController.readAllUser();
+        for (User u : listUser) {
+            System.out.println(u);
+        }
     }
 
 
