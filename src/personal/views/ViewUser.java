@@ -26,7 +26,7 @@ public class ViewUser {
                 if (com == Commands.EXIT) return;
                 switch (com) {
                     case CREATE:
-                        creatUser();
+                        createUser();
                         break;
                     case READ:
                         readUser();
@@ -36,6 +36,9 @@ public class ViewUser {
                         break;
                     case UPDATE:
                         updateUser();
+                        break;
+                    case DELETE:
+                        deleteUser();
                         break;
                 }
             } catch (Exception e) {
@@ -52,6 +55,11 @@ public class ViewUser {
         updateUser.setId(user.getId());
         User savedUser = userController.updateUser(updateUser);
         System.out.println(savedUser);
+    }
+    private void deleteUser() throws Exception {
+        readList();
+        User user = getUser();
+
     }
 
 
@@ -74,7 +82,7 @@ public class ViewUser {
         return user;
     }
 
-    private void creatUser() throws Exception {
+    private void createUser() throws Exception {
         User user = getNewUser();
         userController.saveUser(user);
     }
