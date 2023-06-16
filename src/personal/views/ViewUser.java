@@ -2,6 +2,7 @@ package personal.views;
 
 import personal.controllers.UserController;
 import personal.model.User;
+import personal.views.validator.NameValidator;
 
 import java.util.List;
 import java.util.Scanner;
@@ -31,7 +32,10 @@ public class ViewUser {
                         readUser();
                         break;
                     case LIST:
-                        listUser();
+                        readList();
+                        break;
+                    case UPDATE:
+                        updateUser();
                         break;
                 }
             } catch (Exception e) {
@@ -41,25 +45,48 @@ public class ViewUser {
         }
     }
 
-    private void listUser() {
+    private void updateUser() throws Exception {
+        readList();
+        User user = getUser();
+        User updateUser = getNewUser();
+        updateUser.setId(user.getId());
+        User savedUser = userController.updateUser(updateUser);
+        System.out.println(savedUser);
+    }
+
+
+    private void readList() {
        List<User> listUser = userController.readAllUser();
        for(User u:listUser){
-
+           System.out.println(u);
        }
     }
 
 
     private void readUser() throws Exception {
-        String id = prompt("Идентификатор пользователя: ");
-        User user = userController.readUser(id);
+        User user = getUser();
         System.out.println(user);
     }
 
-    private void creatUser() {
+    private User getUser() throws Exception {
+        String id = prompt("Идентификатор пользователя: ");
+        User user = userController.readUser(id);
+        return user;
+    }
+
+    private void creatUser() throws Exception {
+        User user = getNewUser();
+        userController.saveUser(user);
+    }
+
+    private User getNewUser() throws Exception {
         String firstName = prompt("Имя: ");
+        new NameValidator(firstName).validate();
         String lastName = prompt("Фамилия: ");
+        new NameValidator(lastName).validate();
         String phone = prompt("Номер телефона: ");
-        userController.saveUser(new User(firstName, lastName, phone));
+        User user = new User(firstName, lastName, phone);
+        return user;
     }
 
     private String prompt(String message) {
